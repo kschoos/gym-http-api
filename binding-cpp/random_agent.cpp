@@ -33,7 +33,7 @@ int main(int argc, char** argv)
 {
 	try {
 		boost::shared_ptr<Gym::Client> client = Gym::client_create("127.0.0.1", 5000);
-		run_single_environment(client, "Breakout-v0", 3);
+		run_single_environment(client, "CartPole-v0", 3);
 
 	} catch (const std::exception& e) {
 		fprintf(stderr, "ERROR: %s\n", e.what());
