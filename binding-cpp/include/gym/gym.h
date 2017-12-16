@@ -3,6 +3,8 @@
 // Caffe uses boost::shared_ptr (as opposed to std::shared_ptr), so do we.
 #include <boost/shared_ptr.hpp>
 #include <vector>
+#include <map>
+#include <iostream>
 
 namespace Gym {
 
@@ -44,6 +46,7 @@ public:
 class Client {
 public:
 	virtual boost::shared_ptr<Environment> make(const std::string& name) =0;
+  virtual std::map<std::string, std::string> get_envs() =0;
 };
 
 extern boost::shared_ptr<Client> client_create(const std::string& addr, int port);
