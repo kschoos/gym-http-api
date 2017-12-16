@@ -5,6 +5,7 @@
 
 #include <json/value.h>
 #include <json/reader.h>
+#include <json/writer.h>
 
 #include <stdio.h>
 #include <random>
@@ -196,6 +197,7 @@ public:
 	}
 
 	boost::shared_ptr<Environment> make(const std::string& env_id) override;
+  std::map<std::string, std::string> get_envs();
 };
 
 boost::shared_ptr<Client> client_create(const std::string& addr, int port)
@@ -293,6 +295,18 @@ boost::shared_ptr<Environment> ClientReal::make(const std::string& env_id)
 	env->client = shared_from_this();
 	env->instance_id = instance_id;
 	return env;
+}
+
+std::map<std::string, std::string> ClientReal::get_envs()
+{
+  Json::Value ans = GET("/v1/envs/")["all_envs"];
+  std::map<std::string, std::string> res = std::map<std::string, std::string>();
+  for (auto const& id: ans.getMemberNames())
+  {
+    res[id] = ans[id].asString().substr(0, ans[id].size()-1);
+  }
+
+  return res;
 }
 
 } // namespace
